@@ -1,0 +1,1 @@
+'Flavours', 'Negatives', 'Name', 'TotalReviews', 'Effects', 'Medical', 'Rating', 'Type', 'ProductDescription'

@@ -1,0 +1,7 @@
+.idea/
+__pycache__/
+data*/
+full_imgs/
+imgDump/
+json_products/
+thumbs/
