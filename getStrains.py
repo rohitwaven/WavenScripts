@@ -373,7 +373,7 @@ def countTotalProducts():
     print(f"[=] Total records: {recordCount}")
 
 def downloadImage(imageUrl, imgName):
-    urllib3.disable_warnings()
+    # urllib3.disable_warnings()
     url = imageUrl
     fileName = f"./ImgDump/{imgName}"
     # print (f"{fileName} exists: {os.path.isfile(fileName)}")
@@ -403,26 +403,56 @@ def processProdsForImgs():
             imgUrl = docJson.get("imageUrl", "---EMPTY---")
             if imgUrl != "---EMPTY---":
                 # downloadImage(imgUrl, f"{prodName}.png")
-                tmpDoc.append({u"ProductName":prodName, u"imageUrl":imgUrl})
+                tmpDoc.append({u"FireBaseObjID":doc.id, u"ProductName":prodName,u"ImageName":prodName+'.png', u"imageUrl":imgUrl})
             #print(f"[*] {doc.id} : {prodName}")
             # sys.stdout.flush()
     # addStrainsFromFile("StrainsSativaSorted.json")
     # backupProds = firestoreDb.collection(u'latestprods')
     # toCollectionRef = firestoreDb.collection(u'prods_backup')
-
-    for record in tmpDoc:
-        # print(f"[=] {record['ProductName']} = {record['imageUrl']}")
-        imgUrl = record['imageUrl']
-        prodName = record['ProductName']
+    df = pandas.DataFrame.from_dict(tmpDoc)
+    for index, row in df.iterrows():
+        imgUrl = row['imageUrl']
+        prodName = row['ProductName']
         try:
             downloadImage(imgUrl, f"{prodName}.png")
         except Exception as e:
-            print(f"[-] Error occured: {e}")
+            print(f"[-] {prodName}, {imgUrl} Error => {e}")
 
     print(f"[+] Total records: {len(tmpDoc)}")
 
+def backupStrainsToJSON(fileName):
+    tmpProdRef = firestoreDb.collection(u'strains2')
+    docs = tmpProdRef.get()
+    tmpDocs = []
+    if docs:
+        for doc in docs:
+            tmpDocs.append({u'strain': doc.to_dict()})
+
+    # data = json.loads(tmpDocs)
+    df = pandas.DataFrame.from_dict(tmpDocs)
+    # print(df)
+    df.to_json(path_or_buf=fileName)
+    print(f"[+]File dumped: {fileName}")
+    # print(f"[+] Total records: {len(tmpDoc)}")
+
+def backupProductsToJSON(fileName):
+    tmpProdRef = firestoreDb.collection(u'latestprods')
+    docs = tmpProdRef.get()
+    tmpDocs = []
+    if docs:
+        for doc in docs:
+            tmpDocs.append({u'product': doc.to_dict()})
+
+    # data = json.loads(tmpDocs)
+    df = pandas.DataFrame.from_dict(tmpDocs)
+    # print(df)
+    df.to_json(path_or_buf=fileName)
+    print(f"[+]File dumped: {fileName}")
+
 def main():
-    processProdsForImgs()
+    # backupStrainsToJSON('./Strains.json')
+    backupProductsToJSON('./Products.json')
+    # processProdsForImgs()
     # deleteSativaStrain()
 
     # print("[!] Backing up, please wait...")
