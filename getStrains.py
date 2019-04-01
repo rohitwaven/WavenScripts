@@ -378,8 +378,8 @@ def downloadImage(imageUrl, imgName):
     fileName = f"./ImgDump/{imgName}"
     # print (f"{fileName} exists: {os.path.isfile(fileName)}")
     # return
-    # if os.path.isfile(fileName):
-    #     return
+    if os.path.exists(fileName):
+         return
 
     with urllib3.PoolManager() as http:
 
@@ -418,7 +418,7 @@ def processProdsForImgs():
             downloadImage(imgUrl, f"{prodName}.png")
         except Exception as e:
             print(f"[-] Error occured: {e}")
-        
+
     print(f"[+] Total records: {len(tmpDoc)}")
 
 def main():
