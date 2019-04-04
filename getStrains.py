@@ -449,6 +449,14 @@ def backupProductsToJSON(fileName):
     df.to_json(path_or_buf=fileName)
     print(f"[+]File dumped: {fileName}")
 
+
+def excelToJson(filename):
+    tmpFilename = filename
+    tmpJsonName = filename.split('.')[0] + '.json'
+    df = pandas.read_excel(tmpFilename)
+    print(f"[+] Dumping {tmpFilename} to JSON: {tmpJsonName} ")
+    df.to_json(tmpJsonName)
+    print("[+] Done !")
 def main():
     # backupStrainsToJSON('./Strains.json')
     # backupProductsToJSON('./Products.json')
