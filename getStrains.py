@@ -451,7 +451,8 @@ def backupProductsToJSON(fileName):
 
 def main():
     # backupStrainsToJSON('./Strains.json')
-    backupProductsToJSON('./Products.json')
+    # backupProductsToJSON('./Products.json')
+    excelToJson('imageKey.xlsx')
     # processProdsForImgs()
     # deleteSativaStrain()
 
