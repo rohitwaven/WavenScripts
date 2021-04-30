@@ -42,7 +42,7 @@ python-dateutil==2.8.0
 pytz==2018.9
 pywin32-ctypes==0.2.0
 requests==2.19.1
-rsa==4.0
+rsa==4.7
 semantic-version==2.6.0
 six==1.11.0
 updatable==0.3.1
