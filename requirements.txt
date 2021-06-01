@@ -46,7 +46,7 @@ rsa==4.0
 semantic-version==2.6.0
 six==1.11.0
 updatable==0.3.1
-urllib3==1.23
+urllib3==1.26.5
 virtualenv==16.0.0
 virtualenvwrapper-win==1.2.5
 wget==3.2
